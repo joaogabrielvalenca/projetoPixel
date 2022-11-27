@@ -1,12 +1,10 @@
-
 const divAppend = document.getElementById("main-square");
 const divSquare = document.createElement("div");
 
-function squaresOfN(n)
-for (i = 1; i <= n; i++) {
+for (i = 1; i <= 5; i++) {
   divAppend.appendChild(divSquare);
   divSquare.setAttribute("id", "pixel-board");
-  for (j = 1; j <= n; j++) {
+  for (j = 1; j <= 5; j++) {
     const squares = document.createElement("div");
     squares.setAttribute("class", "pixel");
     divSquare.appendChild(squares);
@@ -14,7 +12,7 @@ for (i = 1; i <= n; i++) {
   }
 }
 
-squaresOfN(5)
+
 
 const colorSelectedClass = document.querySelector("#color-selected");
 let currentProp = getComputedStyle(colorSelectedClass);
