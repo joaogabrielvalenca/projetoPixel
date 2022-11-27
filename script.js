@@ -1,17 +1,20 @@
-// // Requisito 6 e 7
 
 const divAppend = document.getElementById("main-square");
 const divSquare = document.createElement("div");
-for (i = 1; i <= 5; i++) {
+
+function squaresOfN(n)
+for (i = 1; i <= n; i++) {
   divAppend.appendChild(divSquare);
   divSquare.setAttribute("id", "pixel-board");
-  for (j = 1; j <= 5; j++) {
+  for (j = 1; j <= n; j++) {
     const squares = document.createElement("div");
     squares.setAttribute("class", "pixel");
     divSquare.appendChild(squares);
     squares.setAttribute("id", `pixelId${j}row${i}`);
   }
 }
+
+squaresOfN(5)
 
 const colorSelectedClass = document.querySelector("#color-selected");
 let currentProp = getComputedStyle(colorSelectedClass);
@@ -51,11 +54,13 @@ button.addEventListener("click", randomColor);
 // REQUISITO 9 E 10: PEGANDO A COR E COLOCANDO EM UMA TABUA DE PIXEL
 
 function classSelected(event) {
-  let clickedClass = event.target.id;
-  console.log(clickedClass);
-  colorSelectedClass.id = clickedClass;
-  console.log("cor", currentProp.backgroundColor);
-  console.log(colorSelectedClass);
+  let currentElementSelected = document.querySelector(".selected");
+  currentElementSelected.classList.remove("selected");
+  let clickedId = event.target.id;
+  let selectedElement = document.querySelector(`#${clickedId}`);
+  selectedElement.classList.add("selected");
+  console.log("clicked", selectedElement);
+  colorSelectedClass.id = clickedId;
 }
 
 let selectColor = document.querySelector("#color-palette");
@@ -68,28 +73,16 @@ function pixelPaint(event) {
   element.style.backgroundColor = currentProp.backgroundColor;
 }
 
-let selectPixel = document.querySelector("#table-squares1");
+let selectPixel = document.querySelector("#pixel-board");
 selectPixel.addEventListener("click", pixelPaint);
 
-let selectPixel1 = document.querySelector("#table-squares2");
-selectPixel1.addEventListener("click", pixelPaint);
-
-let selectPixel2 = document.querySelector("#table-squares3");
-selectPixel2.addEventListener("click", pixelPaint);
-
-let selectPixel3 = document.querySelector("#table-squares4");
-selectPixel3.addEventListener("click", pixelPaint);
-
-let selectPixel4 = document.querySelector("#table-squares5");
-selectPixel4.addEventListener("click", pixelPaint);
 
 //REQUISITO 11: LIMPAR TUDO
 
 function clearAll() {
   for (let j = 1; j <= 5; j++) {
-    let pixelId = `pixelId${j}row`;
-    for (let i = 0; i < 5; i++) {
-      let pixelRow = `${pixelId}${i}`;
+    for (let i = 1; i <= 5; i++) {
+      let pixelRow = `pixelId${i}row${j}`;
       let clearPixel = document.querySelector(`#${pixelRow}`);
       let white = `rgb(255,255,255)`;
       clearPixel.style.backgroundColor = white;
@@ -100,5 +93,28 @@ function clearAll() {
 let clearButton = document.querySelector("#clear-board");
 clearButton.addEventListener("click", clearAll);
 
-//falta requisito 5 (nao da pra fazer) e 12 (dá)
 //5 localstorage para paleta de cores
+
+
+//13 inputvalue
+const inputSelector = document.getElementById('board-size');
+const buttonRows = document.getElementById('generate-board');
+let totalNum = buttonRows.addEventListener('click', onClick);
+
+
+function onClick() {
+  if (inputSelector.value < 5 && inputSelector.value > 0) {
+    inputSelector.value = 5
+  } else if (inputSelector.value > 50) {
+    inputSelector.value = 50
+  } else if (inputSelector.value === "") {
+    alert('Board Inválido')
+  }
+  console.log(inputSelector.value)
+  return inputSelector.value;
+}
+
+
+
+// document.getElementById("board-size").defaultValue = "";
+

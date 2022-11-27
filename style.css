@@ -64,8 +64,8 @@
 }
 
 #main-square {
-  height: 210px;
-  width: 210px;
+  height: 214px;
+  width: 215px;
   border: 1px black solid;
 }
 
@@ -83,4 +83,25 @@
   width: 40px;
   /* background-size: contain; */
   margin-right: 2px;
+}
+
+#clear-board {
+  margin-top: 10px;
+}
+
+#lines-and-columns {
+  display: flex;
+  flex-direction: column;
+}
+
+#board-size {
+  width: 100px;
+  height: 20px;
+  margin-top: 10px;
+}
+
+#generate-board {
+  width: 80px;
+  height: 25px;
+  margin-top: 10px;
 }
