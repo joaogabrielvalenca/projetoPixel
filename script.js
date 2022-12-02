@@ -1,15 +1,8 @@
 const mainSquare = document.getElementById("main-square");
+const pixelBoard = document.getElementById("pixel-board");
 const divSquare = document.createElement("div");
 
-let numberOfSquares = 25;
-
-function removeSquares() {
-  mainSquare.removeAttribute("class");
-  console.log("a", mainSquare);
-}
-
 function generateSquares(number = 5) {
-  removeSquares();
   let heightAndWidth = number * 42;
   mainSquare.style.height = `${heightAndWidth}px`;
   mainSquare.style.width = `${heightAndWidth}px`;
