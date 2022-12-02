@@ -1,18 +1,31 @@
-const divAppend = document.getElementById("main-square");
+const mainSquare = document.getElementById("main-square");
 const divSquare = document.createElement("div");
 
-for (i = 1; i <= 5; i++) {
-  divAppend.appendChild(divSquare);
-  divSquare.setAttribute("id", "pixel-board");
-  for (j = 1; j <= 5; j++) {
-    const squares = document.createElement("div");
-    squares.setAttribute("class", "pixel");
-    divSquare.appendChild(squares);
-    squares.setAttribute("id", `pixelId${j}row${i}`);
-  }
+let numberOfSquares = 25;
+
+function removeSquares() {
+  mainSquare.removeAttribute("class");
+  console.log("a", mainSquare);
 }
 
+function generateSquares(number = 5) {
+  removeSquares();
+  let heightAndWidth = number * 42;
+  mainSquare.style.height = `${heightAndWidth}px`;
+  mainSquare.style.width = `${heightAndWidth}px`;
 
+  for (i = 1; i <= number; i++) {
+    mainSquare.appendChild(divSquare);
+    divSquare.setAttribute("id", "pixel-board");
+    for (j = 1; j <= number; j++) {
+      const squares = document.createElement("div");
+      squares.setAttribute("class", "pixel");
+      divSquare.appendChild(squares);
+      squares.setAttribute("id", `pixelId${j}row${i}`);
+    }
+  }
+}
+generateSquares();
 
 const colorSelectedClass = document.querySelector("#color-selected");
 let currentProp = getComputedStyle(colorSelectedClass);
@@ -44,11 +57,14 @@ function randomColor() {
   let generatedColor3 = `rgb(${r3},${g3},${b3})`;
   button3.style.backgroundColor = generatedColor3;
 
-  localStorage.setItem('colorPalette', JSON.stringify([generatedColor1, generatedColor2, generatedColor3]));
+  localStorage.setItem(
+    "colorPalette",
+    JSON.stringify([generatedColor1, generatedColor2, generatedColor3])
+  );
 }
 
 window.onload = () => {
-  const colorPalette = JSON.parse(localStorage.getItem('colorPalette'));
+  const colorPalette = JSON.parse(localStorage.getItem("colorPalette"));
   if (colorPalette) {
     button1.style.backgroundColor = colorPalette[0];
     button2.style.backgroundColor = colorPalette[1];
@@ -56,7 +72,7 @@ window.onload = () => {
   }
 
   PrintPixelBoard();
-}
+};
 
 const button = document.querySelector("#button-random-color");
 
@@ -72,25 +88,28 @@ function classSelected(event) {
   selectedElement.classList.add("selected");
   console.log("clicked", selectedElement);
   colorSelectedClass.id = clickedId;
-  colorSelectedClass.style.backgroundColor = selectedElement.style.backgroundColor;
+  colorSelectedClass.style.backgroundColor =
+    selectedElement.style.backgroundColor;
 }
-
-
-
 
 function SavePixelBoard() {
   const pixelBoard = [];
   for (let i = 1; i <= 5; i++) {
     for (let j = 1; j <= 5; j++) {
       const element = document.querySelector(`#pixelId${i}row${j}`);
-      pixelBoard.push({ key: `#pixelId${i}row${j}`, value: element.style.backgroundColor });
+      pixelBoard.push({
+        key: `#pixelId${i}row${j}`,
+        value: element.style.backgroundColor,
+      });
     }
   }
-  localStorage.setItem('pixelBoard', JSON.stringify(pixelBoard));
+  localStorage.setItem("pixelBoard", JSON.stringify(pixelBoard));
 }
 
 function PrintPixelBoard() {
-  const pixelBoardFromLocalStorage = JSON.parse(localStorage.getItem('pixelBoard'));
+  const pixelBoardFromLocalStorage = JSON.parse(
+    localStorage.getItem("pixelBoard")
+  );
   console.log(pixelBoardFromLocalStorage);
   if (pixelBoardFromLocalStorage) {
     for (let i = 0; i < pixelBoardFromLocalStorage.length; i++) {
@@ -101,8 +120,8 @@ function PrintPixelBoard() {
   }
 }
 
-let selectColor = document.querySelector('#color-palette');
-const pixel = selectColor.addEventListener('click', classSelected);
+let selectColor = document.querySelector("#color-palette");
+const pixel = selectColor.addEventListener("click", classSelected);
 
 function pixelPaint(event) {
   let clickedPixel = event.target.id;
@@ -112,10 +131,8 @@ function pixelPaint(event) {
   SavePixelBoard();
 }
 
-
 let selectPixel = document.querySelector("#pixel-board");
 selectPixel.addEventListener("click", pixelPaint);
-
 
 //REQUISITO 11: LIMPAR TUDO
 
@@ -135,16 +152,15 @@ clearButton.addEventListener("click", clearAll);
 
 //5 localstorage para paleta de cores
 
-
 //13 inputvalue
-const inputSelector = document.getElementById('board-size');
-const buttonRows = document.getElementById('generate-board');
-const squareOutside = document.getElementById('main-square');
-let totalNum = buttonRows.addEventListener('click', onClick);
+const inputSelector = document.getElementById("board-size");
+const buttonRows = document.getElementById("generate-board");
+// const squareOutside = document.getElementById("main-square");
+let totalNum = buttonRows.addEventListener("click", onClick);
 
 function removeChild() {
   for (i = 1; i <= 5; i++) {
-    divAppend.removeChild(divSquare);
+    mainSquare.removeChild(divSquare);
     divSquare.setAttribute("id", "pixel-board");
     for (j = 1; j <= 5; j++) {
       const squares = document.createElement("div");
@@ -156,37 +172,19 @@ function removeChild() {
 }
 
 function onClick() {
-  let inputValue 
-  if (inputSelector.value === '') {
-    alert('Board Inválido')
-  } else if (inputSelector.value < 5) {
-    inputValue = 5
+  let inputValue;
+  if (inputSelector.value === "") {
+    alert("Board Inválido!");
+  } else if (inputSelector.value <= 5) {
+    inputValue = 5;
   } else if (inputSelector.value > 50) {
-    inputValue = 50
+    inputValue = 50;
   } else if (inputSelector.value > 5 && inputSelector.value <= 50) {
-    inputValue = inputSelector.value
-  } 
-  console.log(inputValue)
+    inputValue = inputSelector.value;
+  }
+  console.log(inputValue);
 
-  // let heightAndWidth = inputValue * 43;
-  // squareOutside.style.height = `${heightAndWidth}px`;
-  // squareOutside.style.width = `${heightAndWidth}px`;
-
-
-
-  // for (i = 1; i <= inputValue; i++) {
-  // divAppend.appendChild(divSquare);
-  // divSquare.setAttribute("id", "pixel-board");
-  // for (j = 1; j <= inputValue; j++) {
-  //   const squares = document.createElement("div");
-  //   squares.setAttribute("class", "pixel");
-  //   divSquare.appendChild(squares);
-  //   squares.setAttribute("id", `pixelId${j}row${i}`);
-  // }
+  generateSquares(inputValue);
 }
 
-
-
-
 // document.getElementById("board-size").defaultValue = "";
-
