@@ -2,23 +2,38 @@ const mainSquare = document.getElementById("main-square");
 const pixelBoard = document.getElementById("pixel-board");
 const divSquare = document.createElement("div");
 
-function generateSquares(number = 5) {
+let baseNumber;
+const listOfIds = [];
+
+function generateSquares(number) {
   let heightAndWidth = number * 42;
   mainSquare.style.height = `${heightAndWidth}px`;
   mainSquare.style.width = `${heightAndWidth}px`;
 
-  for (i = 1; i <= number; i++) {
+  listOfIds.forEach((element) => {
+    document.querySelector(`#${element}`).remove();
+  });
+
+  console.log("cheguei?");
+
+  if (!document.querySelector("#pixel-board")) {
     mainSquare.appendChild(divSquare);
     divSquare.setAttribute("id", "pixel-board");
+  }
+  for (i = 1; i <= number; i++) {
     for (j = 1; j <= number; j++) {
       const squares = document.createElement("div");
       squares.setAttribute("class", "pixel");
       divSquare.appendChild(squares);
       squares.setAttribute("id", `pixelId${j}row${i}`);
+      listOfIds.push(`pixelId${j}row${i}`);
     }
   }
+  console.log("listOfIds", listOfIds);
+  baseNumber = number;
 }
-generateSquares();
+
+generateSquares(5);
 
 const colorSelectedClass = document.querySelector("#color-selected");
 let currentProp = getComputedStyle(colorSelectedClass);
@@ -99,10 +114,11 @@ function SavePixelBoard() {
   localStorage.setItem("pixelBoard", JSON.stringify(pixelBoard));
 }
 
+const pixelBoardFromLocalStorage = JSON.parse(
+  localStorage.getItem("pixelBoard")
+);
+
 function PrintPixelBoard() {
-  const pixelBoardFromLocalStorage = JSON.parse(
-    localStorage.getItem("pixelBoard")
-  );
   console.log(pixelBoardFromLocalStorage);
   if (pixelBoardFromLocalStorage) {
     for (let i = 0; i < pixelBoardFromLocalStorage.length; i++) {
@@ -130,13 +146,16 @@ selectPixel.addEventListener("click", pixelPaint);
 //REQUISITO 11: LIMPAR TUDO
 
 function clearAll() {
-  for (let j = 1; j <= 5; j++) {
-    for (let i = 1; i <= 5; i++) {
+  for (let j = 1; j <= baseNumber; j++) {
+    for (let i = 1; i <= baseNumber; i++) {
       let pixelRow = `pixelId${i}row${j}`;
       let clearPixel = document.querySelector(`#${pixelRow}`);
       let white = `rgb(255,255,255)`;
       clearPixel.style.backgroundColor = white;
     }
+  }
+  if (pixelBoardFromLocalStorage) {
+    localStorage.removeItem("pixelBoard");
   }
 }
 
@@ -149,7 +168,6 @@ clearButton.addEventListener("click", clearAll);
 const inputSelector = document.getElementById("board-size");
 const buttonRows = document.getElementById("generate-board");
 // const squareOutside = document.getElementById("main-square");
-let totalNum = buttonRows.addEventListener("click", onClick);
 
 function removeChild() {
   for (i = 1; i <= 5; i++) {
@@ -178,6 +196,8 @@ function onClick() {
   console.log(inputValue);
 
   generateSquares(inputValue);
+  clearAll();
 }
 
+buttonRows.addEventListener("click", onClick);
 // document.getElementById("board-size").defaultValue = "";
