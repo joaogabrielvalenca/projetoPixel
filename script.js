@@ -3,34 +3,52 @@ const pixelBoard = document.getElementById("pixel-board");
 const divSquare = document.createElement("div");
 
 let baseNumber;
-const listOfIds = [];
+let listOfIds = [];
+
+
 
 function generateSquares(number) {
-  let heightAndWidth = number * 42;
+  let heightAndWidth = number * 43;
   mainSquare.style.height = `${heightAndWidth}px`;
   mainSquare.style.width = `${heightAndWidth}px`;
 
+  console.log(1,"cheguei?");
+
   listOfIds.forEach((element) => {
-    document.querySelector(`#${element}`).remove();
+    document.getElementById(`${element}`);
   });
 
-  console.log("cheguei?");
+  const searchId = document.querySelectorAll('.pixel');
+
+  for (let n = 0; n < searchId.length; n++){
+    searchId[n].remove();
+  }
+  console.log(2, "cheguei?");
+
+
+//  searchId.remove()
 
   if (!document.querySelector("#pixel-board")) {
     mainSquare.appendChild(divSquare);
     divSquare.setAttribute("id", "pixel-board");
   }
+
   for (i = 1; i <= number; i++) {
     for (j = 1; j <= number; j++) {
-      const squares = document.createElement("div");
+      // if(searchId === 'null') {
+      const squares = document.createElement('div')
       squares.setAttribute("class", "pixel");
       divSquare.appendChild(squares);
       squares.setAttribute("id", `pixelId${j}row${i}`);
       listOfIds.push(`pixelId${j}row${i}`);
-    }
+     
+      }
   }
+    // }
+   
   console.log("listOfIds", listOfIds);
   baseNumber = number;
+  console.log('searchid',searchId)
 }
 
 generateSquares(5);
@@ -196,7 +214,7 @@ function onClick() {
   console.log(inputValue);
 
   generateSquares(inputValue);
-  clearAll();
+//   clearAll();
 }
 
 buttonRows.addEventListener("click", onClick);
